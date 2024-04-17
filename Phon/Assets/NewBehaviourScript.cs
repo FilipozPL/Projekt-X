@@ -13,6 +13,7 @@ public class NewBehaviourScript : MonoBehaviour
     void Start()
     {
         EnhancedTouch.Touch.onFingerDown += OnTouch;
+        EnhancedTouch.Touch.onFingerMove += OnTouch;
     }
     void OnDisable()
     {
