@@ -1,18 +1,14 @@
-using System.Linq;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using EnhancedTouch = UnityEngine.InputSystem.EnhancedTouch;
 
 public class NewBehaviourScript : MonoBehaviour
 {
-    PlayerInput playerInput;
+    [SerializeField] Camera mainCamera;
     // Start is called before the first frame update
     void OnEnable()
     {
         EnhancedTouch.EnhancedTouchSupport.Enable();
         EnhancedTouch.TouchSimulation.Enable();
-        playerInput = GetComponent<PlayerInput>();
-        playerInput.SwitchCurrentControlScheme(InputSystem.devices.First(d => d == Touchscreen.current));
     }
     void Start()
     {
@@ -32,6 +28,6 @@ public class NewBehaviourScript : MonoBehaviour
 
     void OnTouch(EnhancedTouch.Finger finger)
     {
-        Debug.Log("sus");
+        gameObject.transform.position = mainCamera.ScreenToWorldPoint(new Vector3(finger.screenPosition.x, finger.screenPosition.y, 10));
     }
 }
