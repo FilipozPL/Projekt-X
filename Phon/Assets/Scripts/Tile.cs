@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MaterialSetUp : MonoBehaviour
+public class Tile : MonoBehaviour
 {
     [SerializeField] MaterialScriptableObject material;
     SpriteRenderer spriteRenderer;

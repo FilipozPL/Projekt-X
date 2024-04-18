@@ -1,10 +1,13 @@
+using System;
 using UnityEngine;
 using EnhancedTouch = UnityEngine.InputSystem.EnhancedTouch;
 
 public class NewBehaviourScript : MonoBehaviour
 {
     [SerializeField] Camera mainCamera;
-    // Start is called before the first frame update
+    [SerializeField] GridManager gridManager;
+    GameObject currentTile;
+    GameObject oldTile = null;
     void OnEnable()
     {
         EnhancedTouch.EnhancedTouchSupport.Enable();
@@ -21,14 +24,18 @@ public class NewBehaviourScript : MonoBehaviour
         EnhancedTouch.TouchSimulation.Disable();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     void OnTouch(EnhancedTouch.Finger finger)
     {
-        gameObject.transform.position = mainCamera.ScreenToWorldPoint(new Vector3(finger.screenPosition.x, finger.screenPosition.y, 10));
+        Vector2 position = Vector2Int.RoundToInt(mainCamera.ScreenToWorldPoint(new Vector3(finger.screenPosition.x, finger.screenPosition.y)));
+        oldTile = currentTile;
+        currentTile = gridManager.GetTile(position);
+        if (currentTile != null && oldTile != null)
+        {
+            Debug.Log(oldTile.transform.position);
+            currentTile = gridManager.GetTile(position);
+            Debug.Log(currentTile.transform.position);
+            (oldTile.transform.position, currentTile.transform.position) = (currentTile.transform.position, oldTile.transform.position);
+            oldTile = null;
+        }
     }
 }
