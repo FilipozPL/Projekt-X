@@ -27,7 +27,7 @@ public class NewBehaviourScript : MonoBehaviour
     void OnTouch(EnhancedTouch.Finger finger)
     {
         Vector2 position = Vector2Int.RoundToInt(mainCamera.ScreenToWorldPoint(new Vector3(finger.screenPosition.x, finger.screenPosition.y)));
-        oldTile = currentTile;
+        oldTile = currentTile != null ? currentTile : null;
         currentTile = gridManager.GetTile(position);
         if (currentTile != null && oldTile != null)
         {
@@ -36,6 +36,7 @@ public class NewBehaviourScript : MonoBehaviour
             Debug.Log(currentTile.transform.position);
             (oldTile.transform.position, currentTile.transform.position) = (currentTile.transform.position, oldTile.transform.position);
             oldTile = null;
+            currentTile = null;
         }
     }
 }

@@ -7,7 +7,7 @@ public class Tile : MonoBehaviour
     [SerializeField] MaterialScriptableObject material;
     SpriteRenderer spriteRenderer;
     void Awake()
-    {
+    { 
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
     void Start()
