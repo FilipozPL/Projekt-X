@@ -5,7 +5,7 @@ using EnhancedTouch = UnityEngine.InputSystem.EnhancedTouch;
 public class NewBehaviourScript : MonoBehaviour
 {
     [SerializeField] Camera mainCamera;
-    [SerializeField] GridManager gridManager;
+    [SerializeField] TilesStorage tilesStorage;
     GameObject currentTile;
     GameObject oldTile = null;
     void OnEnable()
@@ -26,17 +26,16 @@ public class NewBehaviourScript : MonoBehaviour
 
     void OnTouch(EnhancedTouch.Finger finger)
     {
-        Vector2 position = Vector2Int.RoundToInt(mainCamera.ScreenToWorldPoint(new Vector3(finger.screenPosition.x, finger.screenPosition.y)));
-        oldTile = currentTile != null ? currentTile : null;
-        currentTile = gridManager.GetTile(position);
-        if (currentTile != null && oldTile != null)
-        {
-            Debug.Log(oldTile.transform.position);
-            currentTile = gridManager.GetTile(position);
-            Debug.Log(currentTile.transform.position);
-            (oldTile.transform.position, currentTile.transform.position) = (currentTile.transform.position, oldTile.transform.position);
-            oldTile = null;
-            currentTile = null;
-        }
+        // Vector2 position = Vector2Int.RoundToInt(mainCamera.ScreenToWorldPoint(new Vector3(finger.screenPosition.x, finger.screenPosition.y)));
+        // oldTile = currentTile != null ? currentTile : null;
+        // currentTile = gridManager.GetTile(position);
+        // Debug.Log(oldTile.transform.position);
+        // Debug.Log(currentTile.transform.position);
+        // if (currentTile != null && oldTile != null)
+        // {
+        //     (oldTile.transform.position, currentTile.transform.position) = (currentTile.transform.position, oldTile.transform.position);
+        //     currentTile = null;
+        // }
+        // oldTile = null;
     }
 }
