@@ -6,23 +6,22 @@ using UnityEngine;
 public class Tile : MonoBehaviour
 {
     MaterialScriptableObject material;
+    public MaterialScriptableObject Material 
+    { 
+        get { return material; } 
+        set 
+        { 
+            if(value != null)
+            {
+                material = value; 
+                spriteRenderer.sprite = material.sprite;
+            }
+        } 
+    }
     SpriteRenderer spriteRenderer;
 
     void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-    }
-    public void SetMaterial(MaterialScriptableObject newMaterial)
-    {
-        if(newMaterial != null)
-        {
-            material = newMaterial;
-            spriteRenderer.sprite = material.sprite;
-        }
-    }
-
-    public MaterialScriptableObject GetMaterial()
-    {
-        return material;
     }
 }

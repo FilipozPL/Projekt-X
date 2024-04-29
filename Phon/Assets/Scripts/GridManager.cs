@@ -25,7 +25,7 @@ public class GridManager : MonoBehaviour
                 newTile.name = $"{x} {y}";
                 // Ustawienie materiału płytki na wylosowany materiał
                 Tile tileScript = newTile.GetComponent<Tile>();
-                tileScript.SetMaterial(GetRandomMaterial());
+                tileScript.Material = GetRandomMaterial();
                 // Dodanie płytki do słownika płytek
                 tilesStorage.tiles.Add(new Vector2(x, y), newTile.GetComponent<Tile>());
             }

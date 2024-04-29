@@ -155,7 +155,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 519420031}
-  tilesStorage: {fileID: 0}
+  tilesStorage: {fileID: 11400000, guid: c7b143135f3c3bf41bdabd6676fd7328, type: 2}
 --- !u!114 &378700592
 MonoBehaviour:
   m_ObjectHideFlags: 0

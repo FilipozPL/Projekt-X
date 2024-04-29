@@ -6,8 +6,7 @@ public class NewBehaviourScript : MonoBehaviour
 {
     [SerializeField] Camera mainCamera;
     [SerializeField] TilesStorage tilesStorage;
-    GameObject currentTile;
-    GameObject oldTile = null;
+    Tile currentTile, oldTile = null;
     void OnEnable()
     {
         EnhancedTouch.EnhancedTouchSupport.Enable();
@@ -26,16 +25,16 @@ public class NewBehaviourScript : MonoBehaviour
 
     void OnTouch(EnhancedTouch.Finger finger)
     {
-        // Vector2 position = Vector2Int.RoundToInt(mainCamera.ScreenToWorldPoint(new Vector3(finger.screenPosition.x, finger.screenPosition.y)));
-        // oldTile = currentTile != null ? currentTile : null;
-        // currentTile = gridManager.GetTile(position);
-        // Debug.Log(oldTile.transform.position);
-        // Debug.Log(currentTile.transform.position);
-        // if (currentTile != null && oldTile != null)
-        // {
-        //     (oldTile.transform.position, currentTile.transform.position) = (currentTile.transform.position, oldTile.transform.position);
-        //     currentTile = null;
-        // }
-        // oldTile = null;
+        Vector2 position = Vector2Int.RoundToInt(mainCamera.ScreenToWorldPoint(new Vector3(finger.screenPosition.x, finger.screenPosition.y)));
+        oldTile = currentTile != null ? currentTile : null;
+        currentTile = tilesStorage.GetTile(position);
+        if (currentTile != null && oldTile != null)
+        {
+            var newMat = currentTile.Material;
+            currentTile.Material = oldTile.Material;
+            oldTile.Material = newMat;
+            currentTile = null;
+        }
+        oldTile = null;
     }
 }
