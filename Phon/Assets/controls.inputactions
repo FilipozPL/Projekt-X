@@ -544,6 +544,12 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Disabled",
+            "id": "507fa317-6f72-48ef-84e6-9ffe65177ff4",
+            "actions": [],
+            "bindings": []
         }
     ],
     "controlSchemes": [

@@ -12,4 +12,9 @@ public class TilesStorage : ScriptableObject
         tiles.TryGetValue(position, out Tile tile);
         return tile;
     }
+
+    public void SwapTiles(Tile oldTile, Tile newTile)
+    {
+        (oldTile.Material, newTile.Material) = (newTile.Material, oldTile.Material);
+    }
 }

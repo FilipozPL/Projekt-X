@@ -21,11 +21,12 @@ public class GridManager : MonoBehaviour
             for(int y = 0; y < _height; y++)
             {
                 // Stworzenie nowej płutki na pozycji (x, y)
-                var newTile = Instantiate(_tilePrefab, new Vector3(x, y), Quaternion.identity);
+                var newTile = Instantiate(_tilePrefab, new Vector3(x, y), Quaternion.identity, transform);
                 newTile.name = $"{x} {y}";
                 // Ustawienie materiału płytki na wylosowany materiał
                 Tile tileScript = newTile.GetComponent<Tile>();
                 tileScript.Material = GetRandomMaterial();
+                tileScript.Position = new Vector2Int(x, y);
                 // Dodanie płytki do słownika płytek
                 tilesStorage.tiles.Add(new Vector2(x, y), newTile.GetComponent<Tile>());
             }

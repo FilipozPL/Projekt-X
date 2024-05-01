@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.Common;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -17,6 +18,18 @@ public class Tile : MonoBehaviour
                 spriteRenderer.sprite = material.sprite;
             }
         } 
+    }
+    Vector2Int position;
+    public Vector2Int Position
+    {
+        get { return position; }
+        set
+        {
+            if (value != null)
+            {
+                position = value;
+            }
+        }
     }
     SpriteRenderer spriteRenderer;
 
