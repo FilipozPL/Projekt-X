@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Gold
   m_EditorClassIdentifier: 
   name: Gold
-  sprite: {fileID: 21300000, guid: d0d487188586e0a44987f39b2bca2a33, type: 3}
+  sprite: {fileID: 21300000, guid: d46126eec3ec3d7439e44f6270be0a55, type: 3}
   spawnChance: 1
