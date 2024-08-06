@@ -52,6 +52,21 @@ public class GridManager : MonoBehaviour
         cameraTransform.position = new Vector3(width/2, height/2, -10);
     }
 
+    internal void FillGrid()
+    {
+        for (int x = 0; x < GridManager.Instance.width; x++)
+        {
+            for (int y = 0; y < GridManager.Instance.height; y++)
+            {
+                Tile tile = tilesStorage.GetTile(new Vector2(x, y));
+                if (tile.Material == null)
+                {
+                    tile.Material = GetRandomMaterial();
+                }
+            }
+        }
+    }
+
     // Generacja losowego materiału na podstawie podanej szansy
     MaterialScriptableObject GetRandomMaterial()
     {

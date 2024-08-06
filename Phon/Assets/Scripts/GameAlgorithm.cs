@@ -27,7 +27,6 @@ public class GameAlgorithm : MonoBehaviour
     {
         CheckHorizontal(tile);
         CheckVertical(tile);
-        
     }
 
     private void CheckHorizontal(Tile tile)
@@ -89,10 +88,36 @@ public class GameAlgorithm : MonoBehaviour
                 matchedTile.Material = null;
             }
             _matchedTiles.Clear();
+            DropTiles();
+            GridManager.Instance.FillGrid();
         }
         else
         {
             _matchedTiles.Clear();
+        }
+    }
+
+    private void DropTiles()
+    {
+        for (int x = 0; x < GridManager.Instance.width; x++)
+        {
+            for (int y = 0; y < GridManager.Instance.height; y++)
+            {
+                Tile currentTile = tilesStorage.GetTile(new Vector2(x, y));
+                if (currentTile != null && currentTile.Material == null)
+                {
+                    for (int i = y + 1; i < GridManager.Instance.height; i++)
+                    {
+                        Tile upperTile = tilesStorage.GetTile(new Vector2(x, i));
+                        if (upperTile.Material != null)
+                        {
+                            currentTile.Material = upperTile.Material;
+                            upperTile.Material = null;
+                            break;
+                        }
+                    }
+                }
+            }
         }
     }
 }
