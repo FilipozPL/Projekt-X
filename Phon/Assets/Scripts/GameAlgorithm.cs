@@ -26,7 +26,8 @@ public class GameAlgorithm : MonoBehaviour
     internal void CheckMatch(Tile tile)
     {
         CheckHorizontal(tile);
-        RemoveTiles();
+        CheckVertical(tile);
+        
     }
 
     private void CheckHorizontal(Tile tile)
@@ -51,6 +52,32 @@ public class GameAlgorithm : MonoBehaviour
             }
             _matchedTiles.Add(checkedTile);
         }
+        RemoveTiles();
+    }
+
+    private void CheckVertical(Tile tile)
+    {
+        _matchedTiles.Add(tile);
+        for (int i = tile.Position.y + 1; i < GridManager.Instance.width; i++)
+        {
+            Tile checkedTile = tilesStorage.GetTile(new Vector2Int(tile.Position.x, i));
+            if (checkedTile.Material != tile.Material)
+            {
+                break;
+            }
+            _matchedTiles.Add(checkedTile);
+        }
+        
+        for (int i = tile.Position.y - 1; i >= 0; i--)
+        {
+            Tile checkedTile = tilesStorage.GetTile(new Vector2Int(tile.Position.x, i));
+            if (checkedTile.Material != tile.Material)
+            {
+                break;
+            }
+            _matchedTiles.Add(checkedTile);
+        }
+        RemoveTiles();
     }
     
     private void RemoveTiles()

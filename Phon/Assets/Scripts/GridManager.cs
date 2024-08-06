@@ -7,7 +7,7 @@ public class GridManager : MonoBehaviour
 {
     public static GridManager Instance { get; private set; }
     [SerializeField] internal int width;
-    [SerializeField] private int height;
+    [SerializeField] internal int height;
     [SerializeField] private Transform cameraTransform;
     [SerializeField] private GameObject tilePrefab;
     [SerializeField] private List<MaterialScriptableObject> materials;
