@@ -7,98 +7,62 @@ using EnhancedTouch = UnityEngine.InputSystem.EnhancedTouch;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] Camera mainCamera;
-    [SerializeField] TilesStorage tilesStorage;
-    PlayerInput playerInput;
-    Tile currentTile, oldTile = null;
-    List<Tile> matchedTiles = new();
-    void Awake()
+    [SerializeField] private Camera mainCamera;
+    [SerializeField] private TilesStorage tilesStorage;
+    private PlayerInput _playerInput;
+    private Tile _currentTile, _oldTile = null;
+    private void Awake()
     {
-        playerInput = GetComponent<PlayerInput>();
+        _playerInput = GetComponent<PlayerInput>();
         GameManager.OnGameStateChange += OnGameStateChange;
     }
-    void OnEnable()
+    private void OnEnable()
     {
         EnhancedTouch.EnhancedTouchSupport.Enable();
         EnhancedTouch.TouchSimulation.Enable();
     }
-    void Start()
+    private void Start()
     {
         EnhancedTouch.Touch.onFingerDown += OnTouch;
         EnhancedTouch.Touch.onFingerMove += OnTouch;
     }
-    void OnDisable()
+    private void OnDisable()
     {
         EnhancedTouch.EnhancedTouchSupport.Disable();
         EnhancedTouch.TouchSimulation.Disable();
     }
-    void OnDestroy()
+    private void OnDestroy()
     {
         GameManager.OnGameStateChange -= OnGameStateChange;
         EnhancedTouch.Touch.onFingerDown -= OnTouch;
         EnhancedTouch.Touch.onFingerMove -= OnTouch;
     }
-    void OnGameStateChange(GameState state)
+    private void OnGameStateChange(GameState state)
     {
-        if(state == GameState.PlayerTurn)
-        {
-            playerInput.SwitchCurrentActionMap("Player");
-        }
-        else 
-        {
-            playerInput.SwitchCurrentActionMap("Disabled");
-        }
+        _playerInput.SwitchCurrentActionMap(state == GameState.PlayerTurn ? "Player" : "Disabled");
     }
-    void OnTouch(EnhancedTouch.Finger finger)
+    private void OnTouch(EnhancedTouch.Finger finger)
     {
+        // Get touch position and round it to int
         Vector2 position = Vector2Int.RoundToInt(mainCamera.ScreenToWorldPoint(new Vector3(finger.screenPosition.x, finger.screenPosition.y)));
-        oldTile = currentTile != null ? currentTile : null;
-        currentTile = tilesStorage.GetTile(position);
-        if (currentTile != null && oldTile != null)
+        // If touched on tile first time, then make it active
+        _oldTile = _currentTile != null ? _currentTile : null;
+        _currentTile = tilesStorage.GetTile(position);
+        if (_currentTile != null && _oldTile != null)
         {
+            if (Vector2Int.Distance(_currentTile.Position, _oldTile.Position) > 1)
+            {
+                _currentTile = null;
+                _oldTile = null;
+                return;
+            }
             GameManager.Instance.UpdateGameState(GameState.GameTurn);
-            tilesStorage.SwapTiles(oldTile, currentTile);
-            CheckMatch(currentTile);
-            CheckMatch(oldTile);
+            tilesStorage.SwapTiles(_oldTile, _currentTile);
+            GameAlgorithm.Instance.CheckMatch(_currentTile);
+            GameAlgorithm.Instance.CheckMatch(_oldTile);
             GameManager.Instance.UpdateGameState(GameState.PlayerTurn);
-            currentTile = null;
+            _currentTile = null;
         }
-        oldTile = null;
-    }
-    void CheckMatch(Tile tile)
-    {
-        matchedTiles.Add(tile);
-        var checkedTile = tilesStorage.GetTile(new Vector2Int(tile.Position.x + 1, tile.Position.y));
-        if(checkedTile != null)
-        {
-            if(tile.Material == checkedTile.Material)
-            {
-                CheckMatch(checkedTile);
-            }
-            else
-            {
-                RemoveTiles();
-            }
-        }
-        else
-        {
-            RemoveTiles();
-        }
-    }
-
-    private void RemoveTiles()
-    {
-        if (matchedTiles.Count >= 3)
-        {
-            foreach (Tile matchedTile in matchedTiles)
-            {
-                Destroy(matchedTile.gameObject);
-            }
-            matchedTiles.Clear();
-        }
-        else
-        {
-            matchedTiles.Clear();
-        }
+        _oldTile = null;
     }
 }

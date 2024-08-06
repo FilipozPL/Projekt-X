@@ -5,11 +5,16 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Tile Storage", menuName = "Scriptable Objects/Tile Storage", order = 2)]
 public class TilesStorage : ScriptableObject
 {
-    public Dictionary<Vector2, Tile> tiles = new();
+    private readonly Dictionary<Vector2, Tile> _tiles = new();
 
+    public void AddTile(Vector2 position, Tile tile)
+    {
+        _tiles.Add(position, tile);
+    }
+    
     public Tile GetTile(Vector2 position)
     {
-        tiles.TryGetValue(position, out Tile tile);
+        _tiles.TryGetValue(position, out Tile tile);
         return tile;
     }
 

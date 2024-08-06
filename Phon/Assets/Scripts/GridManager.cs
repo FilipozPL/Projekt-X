@@ -1,39 +1,55 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class GridManager : MonoBehaviour
 {
-    [SerializeField] int _width, _height;
-    [SerializeField] Transform _camera;
-    [SerializeField] GameObject _tilePrefab;
-    [SerializeField] List<MaterialScriptableObject> materials;
-    [SerializeField] TilesStorage tilesStorage;
-    void Start()
+    public static GridManager Instance { get; private set; }
+    [SerializeField] internal int width;
+    [SerializeField] private int height;
+    [SerializeField] private Transform cameraTransform;
+    [SerializeField] private GameObject tilePrefab;
+    [SerializeField] private List<MaterialScriptableObject> materials;
+    [SerializeField] private TilesStorage tilesStorage;
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
+
+    private void Start()
     {
         GenerateGrid();   
     }
     // Generacja planszy
-    void GenerateGrid()
+    private void GenerateGrid()
     {
-        for(int x = 0; x < _width; x++)
+        for(int x = 0; x < width; x++)
         {
-            for(int y = 0; y < _height; y++)
+            for(int y = 0; y < height; y++)
             {
-                // Stworzenie nowej płutki na pozycji (x, y)
-                var newTile = Instantiate(_tilePrefab, new Vector3(x, y), Quaternion.identity, transform);
+                // Stworzenie nowej płytki na pozycji (x, y)
+                var newTile = Instantiate(tilePrefab, new Vector3(x, y), Quaternion.identity, transform);
                 newTile.name = $"{x} {y}";
                 // Ustawienie materiału płytki na wylosowany materiał
                 Tile tileScript = newTile.GetComponent<Tile>();
                 tileScript.Material = GetRandomMaterial();
                 tileScript.Position = new Vector2Int(x, y);
                 // Dodanie płytki do słownika płytek
-                tilesStorage.tiles.Add(new Vector2(x, y), newTile.GetComponent<Tile>());
+                tilesStorage.AddTile(new Vector2(x, y), newTile.GetComponent<Tile>());
             }
         }
         
         // Ustawienie kamery na środku planszy
-        _camera.transform.position = new Vector3(_width/2, _height/2, -10);
+        cameraTransform.position = new Vector3(width/2, height/2, -10);
     }
 
     // Generacja losowego materiału na podstawie podanej szansy

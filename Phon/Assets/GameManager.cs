@@ -9,12 +9,19 @@ public class GameManager : MonoBehaviour
     public GameState state;
     public static event Action<GameState> OnGameStateChange;
 
-    void Awake()
+    private void Awake()
     {
-        Instance = this;
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
     }
 
-    void Start()
+    private void Start()
     {
         UpdateGameState(GameState.PlayerTurn);
     }
