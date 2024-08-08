@@ -67,23 +67,11 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    // Generacja losowego materiału na podstawie podanej szansy
+    // Generation of random material
     MaterialScriptableObject GetRandomMaterial()
     {
-        MaterialScriptableObject material = null;
-        float random = UnityEngine.Random.Range(0.01f, 1f);
-        switch(random)
-        {
-            case <= 0.3f:
-                material = materials.Find(x => x.name == "Iron");
-                break;
-            case <= 0.6f:
-                material = materials.Find(x => x.name == "Gold");
-                break;
-            default:
-                material = materials.Find(x => x.name == "Copper");
-                break;
-        }
+        int random = UnityEngine.Random.Range(0, materials.Count);
+        var material = materials[random];
         return material;
     }
 }

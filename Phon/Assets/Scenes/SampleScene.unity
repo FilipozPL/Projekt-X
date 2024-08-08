@@ -551,6 +551,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1f1f468280a6da240a5f4e45cc767a72, type: 2}
   - {fileID: 11400000, guid: 1540a8686078ffa46893de9fe64ba5e3, type: 2}
   - {fileID: 11400000, guid: 6c8232481c0453e46bc303ccac19d8de, type: 2}
+  - {fileID: 11400000, guid: cfafe458fdf43ce42b8695bd1679de8d, type: 2}
+  - {fileID: 11400000, guid: 1ee74c991e155784fbd0007ce617c675, type: 2}
   tilesStorage: {fileID: 11400000, guid: c7b143135f3c3bf41bdabd6676fd7328, type: 2}
 --- !u!4 &957597984
 Transform:
